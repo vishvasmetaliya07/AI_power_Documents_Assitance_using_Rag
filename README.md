@@ -1,61 +1,88 @@
 ````markdown
 # 📄 AI-Powered Documents Assistant using RAG
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python)
-![Streamlit](https://img.shields.io/badge/Streamlit-Deployed-FF4B4B?style=for-the-badge&logo=streamlit)
-![LangChain](https://img.shields.io/badge/LangChain-RAG-success?style=for-the-badge)
-![ChromaDB](https://img.shields.io/badge/Vector_DB-ChromaDB-purple?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+<p align="center">
 
-An AI-powered document assistant that enables users to upload PDF files and ask questions in natural language. The application uses **Retrieval-Augmented Generation (RAG)** to retrieve the most relevant information from uploaded documents and generate accurate, context-aware responses using Large Language Models (LLMs).
+![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-Deployed-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-RAG-00C853?style=for-the-badge)
+![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector%20Database-7B1FA2?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-F9A825?style=for-the-badge)
+
+</p>
+
+<p align="center">
+
+<a href="https://vishvasmetaliya.streamlit.app/" target="_blank">
+<img src="https://img.shields.io/badge/🚀%20Live%20Demo-Visit%20App-FF4B4B?style=for-the-badge">
+</a>
+
+<a href="https://youtu.be/F06QQRH2s1A" target="_blank">
+<img src="https://img.shields.io/badge/🎥%20Watch-Demo-red?style=for-the-badge&logo=youtube&logoColor=white">
+</a>
+
+<a href="https://github.com/vishvasmetaliya07/AI_power_Documents_Assitance_using_Rag" target="_blank">
+<img src="https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github">
+</a>
+
+</p>
 
 ---
 
-## 🚀 Live Demo
+## 📖 Overview
 
-### 🌐 Web Application
+**AI-Powered Documents Assistant** is a Retrieval-Augmented Generation (**RAG**) application that allows users to upload PDF documents and interact with them using natural language.
 
-🔗 **https://vishvasmetaliya.streamlit.app/**
-
----
-
-## 🎥 Video Demo
-
-Watch the complete working demonstration of the project.
-
-🔗 **https://youtu.be/F06QQRH2s1A**
+Instead of searching manually through lengthy documents, users can simply ask questions, and the AI retrieves the most relevant information before generating accurate, context-aware answers using a Large Language Model.
 
 ---
 
-## ✨ Features
+## 🚀 Live Application
+
+🌐 **Web App**
+
+👉 **https://vishvasmetaliya.streamlit.app/**
+
+---
+
+## 🎥 Video Demonstration
+
+Watch the complete working demo on YouTube.
+
+▶️ **https://youtu.be/F06QQRH2s1A**
+
+---
+
+# ✨ Features
 
 - 📄 Upload PDF documents
-- 💬 Ask questions in natural language
-- 🔍 Semantic search using vector embeddings
-- 🤖 AI-powered question answering with RAG
-- ⚡ Fast and accurate responses
+- 💬 Chat with uploaded documents
+- 🔍 Semantic search using embeddings
+- 🤖 Retrieval-Augmented Generation (RAG)
+- ⚡ Fast and accurate AI responses
 - 🧠 Context-aware document retrieval
-- 🎨 Clean and interactive Streamlit interface
-- 🔒 Secure API key management using `.env`
+- 📚 ChromaDB Vector Store
+- 🔒 Secure API key management with `.env`
+- 🎨 Simple and responsive Streamlit UI
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠 Tech Stack
 
 | Technology | Purpose |
 |------------|---------|
-| Python | Backend Development |
+| Python | Backend |
 | Streamlit | User Interface |
 | LangChain | RAG Pipeline |
-| Groq LLM | Response Generation |
+| Groq LLM | AI Response Generation |
 | ChromaDB | Vector Database |
-| HuggingFace Embeddings | Semantic Embeddings |
-| PyPDF | PDF Processing |
+| HuggingFace Embeddings | Semantic Search |
+| PyPDF | PDF Parsing |
 | python-dotenv | Environment Variables |
 
 ---
 
-## 📁 Project Structure
+# 📁 Project Structure
 
 ```text
 AI_power_Documents_Assitance_using_Rag/
@@ -63,34 +90,34 @@ AI_power_Documents_Assitance_using_Rag/
 ├── app.py
 ├── main.py
 ├── requirements.txt
-├── .env
 ├── README.md
+├── .env
 └── ChromaDB/
-````
+```
 
 ---
 
-## ⚙️ Installation
+# ⚙️ Installation
 
-### 1️⃣ Clone the Repository
+### Clone Repository
 
 ```bash
 git clone https://github.com/vishvasmetaliya07/AI_power_Documents_Assitance_using_Rag.git
 ```
 
-### 2️⃣ Navigate to the Project Folder
+### Navigate to Project
 
 ```bash
 cd AI_power_Documents_Assitance_using_Rag
 ```
 
-### 3️⃣ Create Virtual Environment (Optional)
+### Create Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-Activate the environment:
+### Activate Environment
 
 **Windows**
 
@@ -104,21 +131,19 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-### 4️⃣ Install Dependencies
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 5️⃣ Configure Environment Variables
-
-Create a `.env` file in the project root.
+### Create `.env`
 
 ```env
 GROQ_API_KEY=your_groq_api_key
 ```
 
-### 6️⃣ Run the Application
+### Run Application
 
 ```bash
 streamlit run main.py
@@ -126,89 +151,94 @@ streamlit run main.py
 
 ---
 
-## 📷 Screenshots
+# 📌 How It Works
 
-> Add screenshots or GIFs here to showcase the application interface.
-
-Example:
-
-* Home Page
-* Upload PDF
-* Chat Interface
-* Generated Responses
-
----
-
-## 📌 How It Works
-
-1. Upload a PDF document.
-2. The document is split into smaller chunks.
-3. Chunks are converted into vector embeddings.
-4. Embeddings are stored in ChromaDB.
-5. User asks a question.
-6. Relevant chunks are retrieved using semantic search.
-7. Groq LLM generates an accurate response based on the retrieved context.
-
----
-
-## 🔮 Future Improvements
-
-* 📚 Multiple PDF support
-* 💾 Persistent chat history
-* 📑 Source citations
-* 🖼 OCR support for scanned PDFs
-* 🎤 Voice interaction
-* 🌍 Multi-language support
-* ☁ Cloud database integration
-* 📱 Mobile-friendly UI
+```text
+Upload PDF
+      │
+      ▼
+Split into Chunks
+      │
+      ▼
+Generate Embeddings
+      │
+      ▼
+Store in ChromaDB
+      │
+      ▼
+Ask Question
+      │
+      ▼
+Retrieve Relevant Chunks
+      │
+      ▼
+Groq LLM
+      │
+      ▼
+Generate Accurate Answer
+```
 
 ---
 
-## 🤝 Contributing
+# 🔮 Future Improvements
+
+- 📂 Multiple PDF support
+- 💾 Persistent Chat History
+- 📑 Source Citations
+- 🖼 OCR for Scanned PDFs
+- 🎙 Voice-based Chat
+- 🌍 Multi-language Support
+- ☁ Cloud Database Integration
+- 📱 Mobile Responsive UI
+
+---
+
+# 🤝 Contributing
 
 Contributions are welcome!
 
-1. Fork this repository.
-2. Create a new branch.
-
 ```bash
+# Fork the repository
+
+# Create a feature branch
 git checkout -b feature-name
-```
 
-3. Commit your changes.
-
-```bash
+# Commit your changes
 git commit -m "Added new feature"
-```
 
-4. Push to your branch.
-
-```bash
+# Push changes
 git push origin feature-name
 ```
 
-5. Create a Pull Request.
+Then open a Pull Request.
 
 ---
 
-## 👨‍💻 Author
+# 👨‍💻 Author
 
-### Vishvas Metaliya
+## Vishvas Metaliya
 
-* GitHub: https://github.com/vishvasmetaliya07
-* LinkedIn: https://www.linkedin.com/in/vishvas-metaliya/
+🐙 GitHub  
+https://github.com/vishvasmetaliya07
+
+💼 LinkedIn  
+https://www.linkedin.com/in/vishvas-metaliya/
 
 ---
 
-## ⭐ Support
+# ⭐ Support
 
-If you found this project useful, please consider giving it a ⭐ **Star** on GitHub.
+If you like this project, consider giving it a **⭐ Star** on GitHub.
 
 It helps others discover the project and motivates future improvements.
 
 ---
 
-**Made with ❤️ using Python, Streamlit, LangChain, ChromaDB, and Groq LLM**
+<p align="center">
 
-```
-```
+### ❤️ Made with Python • Streamlit • LangChain • ChromaDB • Groq LLM
+
+**Thanks for visiting! ⭐**
+
+</p>
+````
