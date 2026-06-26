@@ -147,6 +147,7 @@ GROQ_API_KEY = st.secrets.get(
     os.getenv("GROQ_API_KEY")
 )
 
+
 @st.cache_resource(show_spinner=False)
 def load_llm():
     return ChatGroq(
