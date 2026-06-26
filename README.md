@@ -1,15 +1,7 @@
 ````markdown
 # 📄 AI-Powered Documents Assistant using RAG
 
-<p align="center">
 
-![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-Deployed-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
-![LangChain](https://img.shields.io/badge/LangChain-RAG-00C853?style=for-the-badge)
-![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector%20Database-7B1FA2?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-F9A825?style=for-the-badge)
-
-</p>
 
 <p align="center">
 
