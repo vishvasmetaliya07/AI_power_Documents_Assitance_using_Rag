@@ -1,0 +1,119 @@
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+.venv/
+env/
+ENV/
+
+# Environment Variables
+.env
+.env.*
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Python Distribution
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# ==========================
+# Streamlit
+# ==========================
+.streamlit/secrets.toml
+
+# ==========================
+# LangChain / ChromaDB
+# ==========================
+chroma_db/
+chroma/
+vectorstore/
+db/
+
+# ==========================
+# Ollama Cache (Optional)
+# ==========================
+.ollama/
+
+# ==========================
+# Models
+# ==========================
+models/
+checkpoints/
+weights/
+*.pt
+*.pth
+*.onnx
+*.ckpt
+
+# ==========================
+# Data Files
+# ==========================
+data/
+datasets/
+*.csv
+*.xlsx
+*.jsonl
+
+# Keep sample files if needed
+!data/sample.csv
+
+# ==========================
+# Media
+# ==========================
+*.mp4
+*.avi
+*.mov
+*.zip
+
+# ==========================
+# Temporary Files
+# ==========================
+tmp/
+temp/
+cache/
+*.tmp
+
+# ==========================
+# Testing
+# ==========================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ==========================
+# Mypy
+# ==========================
+.mypy_cache/
+
+# ==========================
+# Ruff
+# ==========================
+.ruff_cache/
+
+# ==========================
+# PyCharm
+# ==========================
+.idea/
+
+# ==========================
+# VS Code
+# ==========================
+.vscode/settings.json
