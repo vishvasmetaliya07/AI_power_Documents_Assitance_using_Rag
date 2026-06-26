@@ -16,10 +16,10 @@ An AI-powered application that lets users upload documents and ask questions in 
 * Python
 * Streamlit
 * LangChain
-* Google Gemini
-* FAISS / ChromaDB
+* Grok 
+* ChromaDB
 * HuggingFace Embeddings
-* PyPDF2
+* PyPDF
 
 ## 📁 Project Structure
 
