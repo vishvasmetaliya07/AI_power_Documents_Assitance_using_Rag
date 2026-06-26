@@ -14,7 +14,7 @@ from langchain_core.output_parsers import StrOutputParser
 warnings.filterwarnings("ignore")
 load_dotenv()
 
-st.set_page_config(page_title=" AI Document Assistant", page_icon="📖", layout="wide")
+st.set_page_config(page_title="AI Document Assistant", page_icon="📖", layout="wide")
 
 st.markdown("""
 <style>
@@ -142,34 +142,54 @@ Question:
 Answer:
 """)
 
+# ====================== SAFE API KEY HANDLING ======================
+GROQ_API_KEY = None
 
-GROQ_API_KEY = st.secrets.get(
-    "GROQ_API_KEY",
-    os.getenv("GROQ_API_KEY")
-)
+try:
+    if "GROQ_API_KEY" in st.secrets:
+        GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+except Exception:
+    pass  # No secrets.toml file
 
+if not GROQ_API_KEY:
+    GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+if not GROQ_API_KEY:
+    st.error("❌ **GROQ_API_KEY is missing!**\n\n"
+             "**How to fix:**\n"
+             "1. Create folder `.streamlit` in your project root\n"
+             "2. Create `secrets.toml` inside it with:\n\n"
+             "```toml\nGROQ_API_KEY = \"gsk_your_actual_key_here\"\n```\n\n"
+             "Or add `GROQ_API_KEY` to your environment variables.")
+    st.stop()
+# =================================================================
 
 @st.cache_resource(show_spinner=False)
 def load_llm():
     return ChatGroq(
         model="llama-3.3-70b-versatile",
-        api_key=GROQ_API_KEY
+        api_key=GROQ_API_KEY,
+        temperature=0.1
     )
 
 @st.cache_resource(show_spinner=False)
 def build_vectorstore(file_path, file_hash):
     pdf = PyPDFLoader(file_path)
     data = pdf.load()
+    
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,
         chunk_overlap=100,
         separators=["\n\n", "\n", ".", " ", ""]
     )
     chunk_data = splitter.split_documents(data)
+    
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    
     db = Chroma.from_documents(
         documents=chunk_data,
         embedding=embeddings,
+        collection_name=f"doc_{file_hash}",
         persist_directory=os.path.join("ChromaDb", file_hash)
     )
     return db
@@ -177,6 +197,7 @@ def build_vectorstore(file_path, file_hash):
 def get_chain(llm):
     return PROMPT | llm | StrOutputParser()
 
+# Initialize session state
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -186,52 +207,71 @@ if "vectorstore" not in st.session_state:
 if "doc_name" not in st.session_state:
     st.session_state.doc_name = None
 
+# Sidebar
 with st.sidebar:
-    st.markdown("### 📖AI Document Assistant ")
-    st.caption("AI Document Assistant")
+    st.markdown("### 📖 AI Document Assistant")
+    st.caption("Ask questions grounded in your document")
     st.divider()
+    
     uploaded_file = st.file_uploader("Upload a PDF", type=["pdf"])
     process_clicked = st.button("Process Document", use_container_width=True)
     st.divider()
+    
     show_chunks = st.toggle("Show source passages", value=True)
+    
     if st.button("Clear Chat History", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
 
+# Main UI
 st.markdown("""
 <div class="doc-hero">
-<h1>AI Power Documents</h1>
+<h1>AI Document Assistant</h1>
 <p>Ask questions about your document. Answers are grounded strictly in its content.</p>
 </div>
 """, unsafe_allow_html=True)
 
+# Process uploaded document
 if process_clicked and uploaded_file is not None:
     with st.spinner("Reading and indexing document..."):
         file_bytes = uploaded_file.getvalue()
         file_hash = hashlib.md5(file_bytes).hexdigest()
+        
         os.makedirs("uploaded_docs", exist_ok=True)
         file_path = os.path.join("uploaded_docs", f"{file_hash}.pdf")
+        
         with open(file_path, "wb") as f:
             f.write(file_bytes)
+        
         st.session_state.vectorstore = build_vectorstore(file_path, file_hash)
         st.session_state.doc_name = uploaded_file.name
-    st.success(f"'{uploaded_file.name}' is indexed and ready.")
+    
+    st.success(f"✅ '{uploaded_file.name}' has been successfully indexed!")
 
+# Show active document
 if st.session_state.vectorstore is not None:
-    st.markdown(f'<span class="status-pill">Active document: {st.session_state.doc_name}</span>', unsafe_allow_html=True)
+    st.markdown(
+        f'<span class="status-pill">Active document: {st.session_state.doc_name}</span>', 
+        unsafe_allow_html=True
+    )
 else:
-    st.info("Upload a PDF in the sidebar and click 'Process Document' to begin.")
+    st.info("👆 Upload a PDF in the sidebar and click 'Process Document' to begin.")
 
 st.write("")
 
+# Display chat history
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
         if msg["role"] == "assistant" and show_chunks and msg.get("chunks"):
             with st.expander("Source passages"):
                 for i, chunk in enumerate(msg["chunks"], start=1):
-                    st.markdown(f'<div class="source-note"><span>Passage {i}</span>{chunk[:400]}</div>', unsafe_allow_html=True)
+                    st.markdown(
+                        f'<div class="source-note"><span>Passage {i}</span>{chunk[:400]}</div>', 
+                        unsafe_allow_html=True
+                    )
 
+# Chat input
 user_input = st.chat_input("Ask a question about the document...")
 
 if user_input:
@@ -239,16 +279,16 @@ if user_input:
         st.warning("Please upload and process a document first.")
     else:
         st.session_state.messages.append({"role": "user", "content": user_input})
+        
         with st.chat_message("user"):
             st.markdown(user_input)
 
-        retriever = st.session_state.vectorstore.as_retriever(
-            search_type="mmr",
-            search_kwargs={"k": 4, "fetch_k": 10, "lambda_mult": 0.5}
-        )
-
         with st.chat_message("assistant"):
             with st.spinner("Searching document..."):
+                retriever = st.session_state.vectorstore.as_retriever(
+                    search_type="mmr",
+                    search_kwargs={"k": 4, "fetch_k": 10, "lambda_mult": 0.5}
+                )
                 docs = retriever.invoke(user_input)
 
             if not docs:
@@ -259,14 +299,25 @@ if user_input:
                 context = "\n\n".join(doc.page_content for doc in docs)
                 llm = load_llm()
                 chain = get_chain(llm)
+                
                 with st.spinner("Generating answer..."):
                     answer = chain.invoke({"context": context, "question": user_input})
+                
                 st.markdown(answer)
                 chunks = [doc.page_content for doc in docs]
 
                 if show_chunks:
                     with st.expander("Source passages"):
                         for i, chunk in enumerate(chunks, start=1):
-                            st.markdown(f'<div class="source-note"><span>Passage {i}</span>{chunk[:400]}</div>', unsafe_allow_html=True)
+                            st.markdown(
+                                f'<div class="source-note"><span>Passage {i}</span>{chunk[:400]}</div>', 
+                                unsafe_allow_html=True
+                            )
 
-        st.session_state.messages.append({"role": "assistant", "content": answer, "chunks": chunks})
+            # Save assistant response
+            st.session_state.messages.append({
+                "role": "assistant", 
+                "content": answer, 
+                "chunks": chunks
+            })
+            
