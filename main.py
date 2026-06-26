@@ -142,9 +142,17 @@ Question:
 Answer:
 """)
 
+GROQ_API_KEY = st.secrets.get(
+    "GROQ_API_KEY",
+    os.getenv("GROQ_API_KEY")
+)
+
 @st.cache_resource(show_spinner=False)
 def load_llm():
-    return ChatGroq(model="llama-3.3-70b-versatile")
+    return ChatGroq(
+        model="llama-3.3-70b-versatile",
+        api_key=GROQ_API_KEY
+    )
 
 @st.cache_resource(show_spinner=False)
 def build_vectorstore(file_path, file_hash):
